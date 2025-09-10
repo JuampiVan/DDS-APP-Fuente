@@ -4,6 +4,7 @@ import ar.edu.utn.dds.k3003.facades.FachadaFuente;
 import ar.edu.utn.dds.k3003.facades.dtos.ColeccionDTO;
 import ar.edu.utn.dds.k3003.facades.dtos.HechoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/colecciones")
+@RequestMapping(value = "/colecciones", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ColeccionController {
 
   private final FachadaFuente fachadaFuente;
@@ -22,7 +23,7 @@ public class ColeccionController {
   @Autowired
   public ColeccionController(FachadaFuente fachadaFuente) {this.fachadaFuente = fachadaFuente;}
 
-  @GetMapping
+  @GetMapping()
   public ResponseEntity<List<ColeccionDTO>> listarColecciones() {
     return ResponseEntity.ok(fachadaFuente.colecciones());
   }
@@ -32,7 +33,7 @@ public class ColeccionController {
     return ResponseEntity.ok(fachadaFuente.buscarColeccionXId(nombre));
   }
 
-  @PostMapping
+  @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<ColeccionDTO> crearColeccion(@RequestBody ColeccionDTO coleccion) {
     return ResponseEntity.ok(fachadaFuente.agregar(coleccion));
   }
