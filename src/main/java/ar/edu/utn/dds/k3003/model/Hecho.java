@@ -1,6 +1,5 @@
 package ar.edu.utn.dds.k3003.model;
 
-import ar.edu.utn.dds.k3003.facades.dtos.CategoriaHechoEnum;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
@@ -9,12 +8,17 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
 @Entity
+@NoArgsConstructor
 public class Hecho {
 
   @Id
@@ -47,31 +51,75 @@ public class Hecho {
     this.titulo = titulo;
   }
 
-  public Hecho() {
+    public String getId() {
+        return id;
+    }
 
-  }
+    public void setId(String id) {
+        this.id = id;
+    }
 
-  public String getId() {
-    return id;
-  }
+    public Coleccion getColeccion() {
+        return coleccion;
+    }
 
-  public void setId(String id) {
-    this.id = id;
-  }
+    public void setColeccion(Coleccion coleccion) {
+        this.coleccion = coleccion;
+    }
 
-  public Coleccion getColeccion() {
-    return coleccion;
-  }
+    public String getTitulo() {
+        return titulo;
+    }
 
-  public void setColeccion(Coleccion coleccion) {
-    this.coleccion = coleccion;
-  }
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
 
-  public String getTitulo() {
-    return titulo;
-  }
+    public List<String> getEtiquetas() {
+        return etiquetas;
+    }
 
-  public void setTitulo(String titulo) {
-    this.titulo = titulo;
-  }
+    public void setEtiquetas(List<String> etiquetas) {
+        this.etiquetas = etiquetas;
+    }
+
+    public CategoriaHechoEnum getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(CategoriaHechoEnum categoria) {
+        this.categoria = categoria;
+    }
+
+    public String getUbicacion() {
+        return ubicacion;
+    }
+
+    public void setUbicacion(String ubicacion) {
+        this.ubicacion = ubicacion;
+    }
+
+    public LocalDateTime getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(LocalDateTime fecha) {
+        this.fecha = fecha;
+    }
+
+    public String getOrigen() {
+        return origen;
+    }
+
+    public void setOrigen(String origen) {
+        this.origen = origen;
+    }
+
+    public Boolean getCensurado() {
+        return censurado;
+    }
+
+    public void setCensurado(Boolean censurado) {
+        this.censurado = censurado;
+    }
 }

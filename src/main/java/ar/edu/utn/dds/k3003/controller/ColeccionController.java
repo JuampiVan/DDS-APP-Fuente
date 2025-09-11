@@ -1,8 +1,8 @@
 package ar.edu.utn.dds.k3003.controller;
 
-import ar.edu.utn.dds.k3003.facades.FachadaFuente;
-import ar.edu.utn.dds.k3003.facades.dtos.ColeccionDTO;
-import ar.edu.utn.dds.k3003.facades.dtos.HechoDTO;
+import ar.edu.utn.dds.k3003.DTOs.ColeccionDTO;
+import ar.edu.utn.dds.k3003.DTOs.HechoDTO;
+import ar.edu.utn.dds.k3003.app.Fachada;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -18,10 +18,10 @@ import java.util.List;
 @RequestMapping(value = "/colecciones", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ColeccionController {
 
-  private final FachadaFuente fachadaFuente;
+  private final Fachada fachadaFuente;
 
   @Autowired
-  public ColeccionController(FachadaFuente fachadaFuente) {this.fachadaFuente = fachadaFuente;}
+  public ColeccionController(Fachada fachadaFuente) {this.fachadaFuente = fachadaFuente;}
 
   @GetMapping()
   public ResponseEntity<List<ColeccionDTO>> listarColecciones() {

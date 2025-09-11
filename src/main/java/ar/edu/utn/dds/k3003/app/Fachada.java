@@ -1,10 +1,7 @@
 package ar.edu.utn.dds.k3003.app;
 
-import ar.edu.utn.dds.k3003.facades.FachadaFuente;
-import ar.edu.utn.dds.k3003.facades.FachadaProcesadorPdI;
-import ar.edu.utn.dds.k3003.facades.dtos.ColeccionDTO;
-import ar.edu.utn.dds.k3003.facades.dtos.HechoDTO;
-import ar.edu.utn.dds.k3003.facades.dtos.PdIDTO;
+import ar.edu.utn.dds.k3003.DTOs.ColeccionDTO;
+import ar.edu.utn.dds.k3003.DTOs.HechoDTO;
 import ar.edu.utn.dds.k3003.model.Coleccion;
 import ar.edu.utn.dds.k3003.model.Hecho;
 import ar.edu.utn.dds.k3003.model.Pdi;
@@ -21,13 +18,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
-public class Fachada implements FachadaFuente {
+public class Fachada {
 
   private ColeccionRepository coleccionRepository;
   private HechoRepository hechoRepository;
-  private FachadaProcesadorPdI fachadaProcesadorPdI;
   private PdiRepository pdIRepository;
 
    protected Fachada() {
@@ -43,75 +40,67 @@ public class Fachada implements FachadaFuente {
     this.pdIRepository = pdIRepository;
   }
 
-  @Override
   public ColeccionDTO agregar(ColeccionDTO coleccionDTO) {
-    if (this.coleccionRepository.findById(coleccionDTO.nombre()).isPresent()){
-      throw new IllegalArgumentException(coleccionDTO.nombre() + "ya existe");
+    if (this.coleccionRepository.findById(coleccionDTO.getNombre()).isPresent()){
+      throw new IllegalArgumentException(coleccionDTO.getNombre() + "ya existe");
     }
-    Coleccion coleccion = new Coleccion(coleccionDTO.nombre(), coleccionDTO.descripcion());
+    Coleccion coleccion = new Coleccion(coleccionDTO.getNombre(), coleccionDTO.getDescripcion());
     this.coleccionRepository.save(coleccion);
     return new ColeccionDTO(coleccion.getNombre(),coleccion.getDescripcion());
   }
 
-  @Override
   public ColeccionDTO buscarColeccionXId(String s) throws NoSuchElementException {
-    val coleccionOptional = this.coleccionRepository.findById(s);
+    Optional<Coleccion> coleccionOptional = this.coleccionRepository.findById(s);
     if ( coleccionOptional.isEmpty()){
       throw new NoSuchElementException(s + "no existe");
     }
-    Coleccion coleccion = (Coleccion) coleccionOptional.get();
+    Coleccion coleccion = coleccionOptional.get();
     return new ColeccionDTO(coleccion.getNombre(),coleccion.getDescripcion());
   }
 
-  @Override
   public HechoDTO agregar(HechoDTO hechoDTO) {
-    if (this.hechoRepository.findById(hechoDTO.id()).isPresent()){
-      throw new HechoExistException(hechoDTO.id() + "ya existe");
+    if (this.hechoRepository.findById(hechoDTO.getId()).isPresent()){
+      throw new HechoExistException(hechoDTO.getId() + "ya existe");
     }
-    ColeccionDTO coleccionDTO = buscarColeccionXId(hechoDTO.nombreColeccion());
-    Coleccion coleccion = new Coleccion(coleccionDTO.nombre(), coleccionDTO.descripcion());
-    Hecho hecho = new Hecho(hechoDTO.id(),coleccion,hechoDTO.titulo());
+    ColeccionDTO coleccionDTO = buscarColeccionXId(hechoDTO.getNombreColeccion());
+    Coleccion coleccion = new Coleccion(coleccionDTO.getNombre(), coleccionDTO.getDescripcion());
+    Hecho hecho = new Hecho(hechoDTO.getId(),coleccion,hechoDTO.getTitulo());
     this.hechoRepository.save(hecho);
-    return new HechoDTO(hecho.getId(),hecho.getColeccion().getNombre(),hechoDTO.titulo());
+    return new HechoDTO(hecho.getId(),hecho.getColeccion().getNombre(),hechoDTO.getTitulo());
   }
 
-  @Override
   public HechoDTO buscarHechoXId(String s) throws NoSuchElementException {
-    val hechoOptional = this.hechoRepository.findById(s);
+    Optional<Hecho> hechoOptional = this.hechoRepository.findById(s);
     if ( hechoOptional.isEmpty()){
       throw new NoSuchElementException(s + " no existe");
     }
-    Hecho hecho = (Hecho) hechoOptional.get();
+    Hecho hecho = hechoOptional.get();
     return new HechoDTO(hecho.getId(),hecho.getColeccion().getNombre(),hecho.getTitulo());
   }
 
-  @Override
   public List<HechoDTO> buscarHechosXColeccion(String s) throws NoSuchElementException {
     ColeccionDTO coleccionDTO = buscarColeccionXId(s);
-    Coleccion coleccion = new Coleccion(coleccionDTO.nombre(), coleccionDTO.descripcion());
+    Coleccion coleccion = new Coleccion(coleccionDTO.getNombre(), coleccionDTO.getDescripcion());
     if (this.hechoRepository.findByColeccion(coleccion).isEmpty()){
       throw new HechoExistException("No existen hechos para la coleccion " + coleccion.getNombre());
     }
     return this.hechoRepository.findByColeccion(coleccion).stream().map(hecho -> new HechoDTO(hecho.getId(),hecho.getColeccion().getNombre(),hecho.getTitulo())).toList();
   }
 
-  @Override
-  public void setProcesadorPdI(FachadaProcesadorPdI fachadaProcesadorPdI) {
-    this.fachadaProcesadorPdI = fachadaProcesadorPdI;
-  }
+//  public void setProcesadorPdI(FachadaProcesadorPdI fachadaProcesadorPdI) {
+//    this.fachadaProcesadorPdI = fachadaProcesadorPdI;
+//  }
+//
+//  public PdIDTO agregar(PdIDTO pdIDTO) throws IllegalStateException {
+//    PdIDTO pdIDTO1 = fachadaProcesadorPdI.procesar(pdIDTO);
+//    if (this.pdIRepository.findById(pdIDTO1.id()).isPresent()){
+//      throw new HechoExistException(pdIDTO1.id() + "ya existe");
+//    }
+//    Hecho hecho = (Hecho) this.hechoRepository.findById(pdIDTO1.hechoId()).get();
+//    this.pdIRepository.save(new Pdi(pdIDTO1.id(),hecho));
+//    return new PdIDTO(pdIDTO1.id(),hecho.getId());
+//  }
 
-  @Override
-  public PdIDTO agregar(PdIDTO pdIDTO) throws IllegalStateException {
-    PdIDTO pdIDTO1 = fachadaProcesadorPdI.procesar(pdIDTO);
-    if (this.pdIRepository.findById(pdIDTO1.id()).isPresent()){
-      throw new HechoExistException(pdIDTO1.id() + "ya existe");
-    }
-    Hecho hecho = (Hecho) this.hechoRepository.findById(pdIDTO1.hechoId()).get();
-    this.pdIRepository.save(new Pdi(pdIDTO1.id(),hecho));
-    return new PdIDTO(pdIDTO1.id(),hecho.getId());
-  }
-
-  @Override
   public List<ColeccionDTO> colecciones() {
     return this.coleccionRepository.findAll().stream()
         .map(coleccion -> new ColeccionDTO(coleccion.getNombre(), coleccion.getDescripcion()))

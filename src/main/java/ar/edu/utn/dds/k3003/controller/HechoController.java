@@ -1,8 +1,8 @@
 package ar.edu.utn.dds.k3003.controller;
 
-import ar.edu.utn.dds.k3003.facades.FachadaFuente;
-import ar.edu.utn.dds.k3003.facades.dtos.ColeccionDTO;
-import ar.edu.utn.dds.k3003.facades.dtos.HechoDTO;
+
+import ar.edu.utn.dds.k3003.DTOs.HechoDTO;
+import ar.edu.utn.dds.k3003.app.Fachada;
 import ar.edu.utn.dds.k3003.model.Hecho;
 import ar.edu.utn.dds.k3003.repository.HechoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +20,11 @@ import java.util.List;
 @RequestMapping("/hecho")
 public class HechoController {
 
-  private final FachadaFuente fachadaFuente;
+  private final Fachada fachadaFuente;
   private final HechoRepository hechoRepository;
 
   @Autowired
-  public HechoController(FachadaFuente fachadaFuente, HechoRepository hechoRepository) {
+  public HechoController(Fachada fachadaFuente, HechoRepository hechoRepository) {
     this.fachadaFuente = fachadaFuente;
     this.hechoRepository = hechoRepository;
   }
@@ -44,23 +44,23 @@ public class HechoController {
 
     return hechoRepository.findById(id)
         .map(hecho -> {
-          if (patch.titulo() != null) {
-            hecho.setTitulo(patch.titulo());
+          if (patch.getTitulo() != null) {
+            hecho.setTitulo(patch.getTitulo());
           }
-          if (patch.etiquetas() != null) {
-            hecho.setEtiquetas(patch.etiquetas());
+          if (patch.getEtiquetas() != null) {
+            hecho.setEtiquetas(patch.getEtiquetas());
           }
-          if (patch.categoria() != null) {
-            hecho.setCategoria(patch.categoria());
+          if (patch.getCategoria() != null) {
+            hecho.setCategoria(patch.getCategoria());
           }
-          if (patch.ubicacion() != null) {
-            hecho.setUbicacion(patch.ubicacion());
+          if (patch.getUbicacion() != null) {
+            hecho.setUbicacion(patch.getUbicacion());
           }
-          if (patch.fecha() != null) {
-            hecho.setFecha(patch.fecha());
+          if (patch.getFecha() != null) {
+            hecho.setFecha(patch.getFecha());
           }
-          if (patch.origen() != null) {
-            hecho.setOrigen(patch.origen());
+          if (patch.getOrigen() != null) {
+            hecho.setOrigen(patch.getOrigen());
           }
           return ResponseEntity.ok(hechoRepository.save(hecho));
         })
