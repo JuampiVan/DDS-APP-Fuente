@@ -15,6 +15,9 @@ public class HechoDTO {
     private LocalDateTime fecha;
     private String origen;
 
+    public HechoDTO() {
+    }
+
     public HechoDTO(String id, String nombreColeccion, String titulo) {
         this.id = id;
         this.nombreColeccion = nombreColeccion;
