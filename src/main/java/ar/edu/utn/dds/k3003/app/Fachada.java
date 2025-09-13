@@ -25,19 +25,16 @@ public class Fachada {
 
   private ColeccionRepository coleccionRepository;
   private HechoRepository hechoRepository;
-  private PdiRepository pdIRepository;
 
    protected Fachada() {
     this.coleccionRepository = new InMemoryColeccionRepo();
     this.hechoRepository = new InMemoryHechoRepo();
-    this.pdIRepository = new InMemoryPdiRepo();
   }
 
   @Autowired
-  public Fachada(ColeccionRepository coleccionRepository, HechoRepository hechoRepository, PdiRepository pdIRepository) {
+  public Fachada(ColeccionRepository coleccionRepository, HechoRepository hechoRepository) {
     this.coleccionRepository = coleccionRepository;
     this.hechoRepository = hechoRepository;
-    this.pdIRepository = pdIRepository;
   }
 
   public ColeccionDTO agregar(ColeccionDTO coleccionDTO) {
@@ -87,9 +84,7 @@ public class Fachada {
     return this.hechoRepository.findByColeccion(coleccion).stream().map(hecho -> new HechoDTO(hecho.getId(),hecho.getColeccion().getNombre(),hecho.getTitulo())).toList();
   }
 
-//  public void setProcesadorPdI(FachadaProcesadorPdI fachadaProcesadorPdI) {
-//    this.fachadaProcesadorPdI = fachadaProcesadorPdI;
-//  }
+
 //
 //  public PdIDTO agregar(PdIDTO pdIDTO) throws IllegalStateException {
 //    PdIDTO pdIDTO1 = fachadaProcesadorPdI.procesar(pdIDTO);
