@@ -2,6 +2,7 @@ package ar.edu.utn.dds.k3003.controller;
 
 
 import ar.edu.utn.dds.k3003.DTOs.HechoDTO;
+import ar.edu.utn.dds.k3003.DTOs.PdIDTO;
 import ar.edu.utn.dds.k3003.app.Fachada;
 import ar.edu.utn.dds.k3003.model.Hecho;
 import ar.edu.utn.dds.k3003.repository.HechoRepository;
@@ -39,6 +40,11 @@ public class HechoController {
   public ResponseEntity<HechoDTO> listarHechos(@PathVariable String id) {
     return ResponseEntity.ok(fachadaFuente.buscarHechoXId(id));
   }
+
+//  @PostMapping("/pdi")
+//  public ResponseEntity<PdIDTO> agregarPdiAHecho(@RequestBody PdIDTO pdIDTO) {
+//      return ResponseEntity.ok(fachadaFuente.agregar(pdIDTO));
+//  }
 
   @PatchMapping("/{id}")
   public ResponseEntity<Hecho> modificarHecho(@PathVariable String id, @RequestBody HechoDTO patch) {

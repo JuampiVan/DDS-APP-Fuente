@@ -2,6 +2,7 @@ package ar.edu.utn.dds.k3003.app;
 
 import ar.edu.utn.dds.k3003.DTOs.ColeccionDTO;
 import ar.edu.utn.dds.k3003.DTOs.HechoDTO;
+import ar.edu.utn.dds.k3003.DTOs.PdIDTO;
 import ar.edu.utn.dds.k3003.model.Coleccion;
 import ar.edu.utn.dds.k3003.model.Hecho;
 import ar.edu.utn.dds.k3003.model.Pdi;
@@ -85,15 +86,13 @@ public class Fachada {
   }
 
 
-//
+
 //  public PdIDTO agregar(PdIDTO pdIDTO) throws IllegalStateException {
-//    PdIDTO pdIDTO1 = fachadaProcesadorPdI.procesar(pdIDTO);
-//    if (this.pdIRepository.findById(pdIDTO1.id()).isPresent()){
-//      throw new HechoExistException(pdIDTO1.id() + "ya existe");
-//    }
-//    Hecho hecho = (Hecho) this.hechoRepository.findById(pdIDTO1.hechoId()).get();
-//    this.pdIRepository.save(new Pdi(pdIDTO1.id(),hecho));
-//    return new PdIDTO(pdIDTO1.id(),hecho.getId());
+//    ConexionHTTP conexionHTTP = new ConexionHTTP();
+//    Optional<PdIDTO> pdiPosteado = conexionHTTP.postearPdi(pdIDTO);
+//
+//    Hecho hecho = (Hecho) this.hechoRepository.findById(pdiPosteado.get().getHechoId()).get();
+//    return new PdIDTO(pdiPosteado.get().getId(),hecho.getId(),pdiPosteado.get().getDescripcion(),pdiPosteado.get().getLugar(),pdiPosteado.get().getMomento(),pdiPosteado.get().getContenido(),pdiPosteado.get().getEtiquetas());
 //  }
 
   public List<ColeccionDTO> colecciones() {
