@@ -3,6 +3,7 @@ package ar.edu.utn.dds.k3003.controller;
 import ar.edu.utn.dds.k3003.DTOs.ColeccionDTO;
 import ar.edu.utn.dds.k3003.DTOs.HechoDTO;
 import ar.edu.utn.dds.k3003.app.Fachada;
+import datadog.trace.api.Trace;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,7 @@ public class ColeccionController {
   @Autowired
   public ColeccionController(Fachada fachadaFuente) {this.fachadaFuente = fachadaFuente;}
 
+    @Trace(operationName = "fuente.colecciones")
   @GetMapping()
   public ResponseEntity<List<ColeccionDTO>> listarColecciones() {
     return ResponseEntity.ok(fachadaFuente.colecciones());
