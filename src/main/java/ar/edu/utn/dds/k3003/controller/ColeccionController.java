@@ -4,6 +4,7 @@ import ar.edu.utn.dds.k3003.DTOs.ColeccionDTO;
 import ar.edu.utn.dds.k3003.DTOs.HechoDTO;
 import ar.edu.utn.dds.k3003.app.Fachada;
 import datadog.trace.api.Trace;
+import io.micrometer.core.instrument.MeterRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -20,13 +21,17 @@ import java.util.List;
 public class ColeccionController {
 
   private final Fachada fachadaFuente;
+    private final MeterRegistry meterRegistry;
 
   @Autowired
-  public ColeccionController(Fachada fachadaFuente) {this.fachadaFuente = fachadaFuente;}
+  public ColeccionController(Fachada fachadaFuente, MeterRegistry meterRegistry) {
+      this.fachadaFuente = fachadaFuente;
+      this.meterRegistry = meterRegistry;
+  }
 
-    @Trace(operationName = "fuente.colecciones")
   @GetMapping()
   public ResponseEntity<List<ColeccionDTO>> listarColecciones() {
+      meterRegistry.counter("fuente.colecciones.requests").increment();
     return ResponseEntity.ok(fachadaFuente.colecciones());
   }
 
