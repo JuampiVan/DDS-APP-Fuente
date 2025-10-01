@@ -17,7 +17,7 @@ public class ConexionHTTP {
     private RestTemplate restTemplate;
 
     public ConexionHTTP() {
-        this.url = "https://dds-app-procesador.onrender.com/pdis";
+        this.url = "https://dds-app-procesador-ykg6.onrender.com/pdis";
         this.restTemplate = new RestTemplate();
     }
 
@@ -28,6 +28,8 @@ public class ConexionHTTP {
             HttpEntity<PdIDTO> request = new HttpEntity<>(pdi, headers);
             ResponseEntity<PdIDTO> response = restTemplate.postForEntity(url, request, PdIDTO.class);
 
+            System.out.println("Status code: " + response.getStatusCode());
+            System.out.println("Body: " + response.getBody());
             if (response.getStatusCode().is2xxSuccessful()) {
                 return Optional.ofNullable(response.getBody());
             } else {

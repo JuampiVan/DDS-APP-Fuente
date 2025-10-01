@@ -14,9 +14,12 @@ import ar.edu.utn.dds.k3003.repository.InMemoryColeccionRepo;
 import ar.edu.utn.dds.k3003.repository.InMemoryHechoRepo;
 import ar.edu.utn.dds.k3003.repository.InMemoryPdiRepo;
 import ar.edu.utn.dds.k3003.repository.PdiRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.io.IOException;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -26,6 +29,7 @@ public class Fachada {
 
   private ColeccionRepository coleccionRepository;
   private HechoRepository hechoRepository;
+  private ProcesadorPdiProxy procesadorPdI;
 
    protected Fachada() {
     this.coleccionRepository = new InMemoryColeccionRepo();
@@ -36,6 +40,7 @@ public class Fachada {
   public Fachada(ColeccionRepository coleccionRepository, HechoRepository hechoRepository) {
     this.coleccionRepository = coleccionRepository;
     this.hechoRepository = hechoRepository;
+      this.procesadorPdI = new ProcesadorPdiProxy(new ObjectMapper());
   }
 
   public ColeccionDTO agregar(ColeccionDTO coleccionDTO) {
@@ -87,12 +92,12 @@ public class Fachada {
 
 
 
-//  public PdIDTO agregar(PdIDTO pdIDTO) throws IllegalStateException {
+//  public PdIDTO agregar(PdIDTO pdIDTO) throws IllegalStateException, IOException {
 //    ConexionHTTP conexionHTTP = new ConexionHTTP();
-//    Optional<PdIDTO> pdiPosteado = conexionHTTP.postearPdi(pdIDTO);
+//    PdIDTO pdiPosteado = procesadorPdI.procesar(pdIDTO);
 //
-//    Hecho hecho = (Hecho) this.hechoRepository.findById(pdiPosteado.get().getHechoId()).get();
-//    return new PdIDTO(pdiPosteado.get().getId(),hecho.getId(),pdiPosteado.get().getDescripcion(),pdiPosteado.get().getLugar(),pdiPosteado.get().getMomento(),pdiPosteado.get().getContenido(),pdiPosteado.get().getEtiquetas());
+//    Hecho hecho = (Hecho) this.hechoRepository.findById(pdiPosteado.hechoId()).get();
+//    return new PdIDTO(pdiPosteado.id(),hecho.getId(),pdiPosteado.descripcion(),pdiPosteado.lugar(),pdiPosteado.momento(),pdiPosteado.contenido(),pdiPosteado.urlImagen(),pdiPosteado.ocrResultado() ,pdiPosteado.etiquetas());
 //  }
 
   public List<ColeccionDTO> colecciones() {

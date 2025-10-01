@@ -5,6 +5,9 @@ public class ColeccionDTO {
     private String nombre;
     private String descripcion;
 
+    public ColeccionDTO() {
+    }
+
     public ColeccionDTO(String nombre, String descripcion) {
         this.nombre = nombre;
         this.descripcion = descripcion;

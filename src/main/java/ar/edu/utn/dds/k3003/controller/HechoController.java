@@ -6,6 +6,8 @@ import ar.edu.utn.dds.k3003.DTOs.PdIDTO;
 import ar.edu.utn.dds.k3003.app.Fachada;
 import ar.edu.utn.dds.k3003.model.Hecho;
 import ar.edu.utn.dds.k3003.repository.HechoRepository;
+import io.micrometer.core.annotation.Counted;
+import io.micrometer.core.annotation.Timed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -31,22 +35,29 @@ public class HechoController {
     this.hechoRepository = hechoRepository;
   }
 
+
   @PostMapping
+  @Counted(value = "http.post.hecho.count", description = "Cantidad de requests POST a /hecho")
+  @Timed(value = "http.post.hecho.latency", description = "Tiempo de ejecución de requests POST a /hecho")
   public ResponseEntity<HechoDTO> crearHecho(@RequestBody HechoDTO hecho) {
     return ResponseEntity.ok(fachadaFuente.agregar(hecho));
   }
 
   @GetMapping("/{id}")
+  @Counted(value = "http.get.hecho.count", description = "Cantidad de requests GET a /hecho/{id}")
+  @Timed(value = "http.get.hecho.latency", description = "Tiempo de ejecución de requests GET a /hecho/{id}")
   public ResponseEntity<HechoDTO> listarHechos(@PathVariable String id) {
     return ResponseEntity.ok(fachadaFuente.buscarHechoXId(id));
   }
 
 //  @PostMapping("/pdi")
-//  public ResponseEntity<PdIDTO> agregarPdiAHecho(@RequestBody PdIDTO pdIDTO) {
+//  public ResponseEntity<PdIDTO> agregarPdiAHecho(@RequestBody PdIDTO pdIDTO) throws IOException {
 //      return ResponseEntity.ok(fachadaFuente.agregar(pdIDTO));
 //  }
 
   @PatchMapping("/{id}")
+  @Counted(value = "http.patch.hecho.count", description = "Cantidad de requests PATCH a /hecho/{id}")
+  @Timed(value = "http.patch.hecho.latency", description = "Tiempo de ejecución de requests PATCH a /hecho/{id}")
   public ResponseEntity<Hecho> modificarHecho(@PathVariable String id, @RequestBody HechoDTO patch) {
 
     return hechoRepository.findById(id)
