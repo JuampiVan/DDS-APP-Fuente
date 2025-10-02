@@ -2,20 +2,16 @@ package ar.edu.utn.dds.k3003.app;
 
 import ar.edu.utn.dds.k3003.DTOs.ColeccionDTO;
 import ar.edu.utn.dds.k3003.DTOs.HechoDTO;
-import ar.edu.utn.dds.k3003.DTOs.PdIDTO;
+import ar.edu.utn.dds.k3003.DTOs.PdIDTOEnviado;
+import ar.edu.utn.dds.k3003.DTOs.PdiDTORecibido;
 import ar.edu.utn.dds.k3003.model.Coleccion;
 import ar.edu.utn.dds.k3003.model.Hecho;
-import ar.edu.utn.dds.k3003.model.Pdi;
 import ar.edu.utn.dds.k3003.model.exceptions.HechoExistException;
 import ar.edu.utn.dds.k3003.repository.ColeccionRepository;
-import ar.edu.utn.dds.k3003.repository.GenericRepository;
 import ar.edu.utn.dds.k3003.repository.HechoRepository;
 import ar.edu.utn.dds.k3003.repository.InMemoryColeccionRepo;
 import ar.edu.utn.dds.k3003.repository.InMemoryHechoRepo;
-import ar.edu.utn.dds.k3003.repository.InMemoryPdiRepo;
-import ar.edu.utn.dds.k3003.repository.PdiRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -92,13 +88,12 @@ public class Fachada {
 
 
 
-//  public PdIDTO agregar(PdIDTO pdIDTO) throws IllegalStateException, IOException {
-//    ConexionHTTP conexionHTTP = new ConexionHTTP();
-//    PdIDTO pdiPosteado = procesadorPdI.procesar(pdIDTO);
-//
-//    Hecho hecho = (Hecho) this.hechoRepository.findById(pdiPosteado.hechoId()).get();
-//    return new PdIDTO(pdiPosteado.id(),hecho.getId(),pdiPosteado.descripcion(),pdiPosteado.lugar(),pdiPosteado.momento(),pdiPosteado.contenido(),pdiPosteado.urlImagen(),pdiPosteado.ocrResultado() ,pdiPosteado.etiquetas());
-//  }
+  public PdiDTORecibido agregar(PdIDTOEnviado pdIDTOEnviado) throws IllegalStateException, IOException {
+    PdiDTORecibido pdiPosteado = procesadorPdI.procesar(pdIDTOEnviado);
+
+    Hecho hecho = (Hecho) this.hechoRepository.findById(pdiPosteado.getHechoId()).get();
+    return new PdiDTORecibido(pdiPosteado.getId(),hecho.getId(),pdiPosteado.getDescripcion(),pdiPosteado.getLugar(),pdiPosteado.getMomento(),pdiPosteado.getContenido(),pdiPosteado.getUrlImagen(),pdiPosteado.getOcrResultado() ,pdiPosteado.getEtiquetas());
+  }
 
   public List<ColeccionDTO> colecciones() {
     return this.coleccionRepository.findAll().stream()

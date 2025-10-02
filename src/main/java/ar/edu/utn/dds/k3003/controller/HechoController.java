@@ -2,7 +2,8 @@ package ar.edu.utn.dds.k3003.controller;
 
 
 import ar.edu.utn.dds.k3003.DTOs.HechoDTO;
-import ar.edu.utn.dds.k3003.DTOs.PdIDTO;
+import ar.edu.utn.dds.k3003.DTOs.PdIDTOEnviado;
+import ar.edu.utn.dds.k3003.DTOs.PdiDTORecibido;
 import ar.edu.utn.dds.k3003.app.Fachada;
 import ar.edu.utn.dds.k3003.model.Hecho;
 import ar.edu.utn.dds.k3003.repository.HechoRepository;
@@ -20,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
-import java.util.List;
 
 @RestController
 @RequestMapping(value = "/hecho", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -50,10 +50,10 @@ public class HechoController {
     return ResponseEntity.ok(fachadaFuente.buscarHechoXId(id));
   }
 
-//  @PostMapping("/pdi")
-//  public ResponseEntity<PdIDTO> agregarPdiAHecho(@RequestBody PdIDTO pdIDTO) throws IOException {
-//      return ResponseEntity.ok(fachadaFuente.agregar(pdIDTO));
-//  }
+  @PostMapping("/pdi")
+  public ResponseEntity<PdiDTORecibido> agregarPdiAHecho(@RequestBody PdIDTOEnviado pdIDTO) throws IOException, IOException {
+      return ResponseEntity.ok(fachadaFuente.agregar(pdIDTO));
+  }
 
   @PatchMapping("/{id}")
   @Counted(value = "http.patch.hecho.count", description = "Cantidad de requests PATCH a /hecho/{id}")

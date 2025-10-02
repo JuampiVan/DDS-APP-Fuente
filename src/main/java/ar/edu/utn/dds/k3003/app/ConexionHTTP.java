@@ -1,11 +1,10 @@
 package ar.edu.utn.dds.k3003.app;
 
-import ar.edu.utn.dds.k3003.DTOs.PdIDTO;
+import ar.edu.utn.dds.k3003.DTOs.PdIDTOEnviado;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
@@ -21,12 +20,12 @@ public class ConexionHTTP {
         this.restTemplate = new RestTemplate();
     }
 
-    public Optional<PdIDTO> postearPdi(PdIDTO pdi) {
+    public Optional<PdIDTOEnviado> postearPdi(PdIDTOEnviado pdi) {
         try {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
-            HttpEntity<PdIDTO> request = new HttpEntity<>(pdi, headers);
-            ResponseEntity<PdIDTO> response = restTemplate.postForEntity(url, request, PdIDTO.class);
+            HttpEntity<PdIDTOEnviado> request = new HttpEntity<>(pdi, headers);
+            ResponseEntity<PdIDTOEnviado> response = restTemplate.postForEntity(url, request, PdIDTOEnviado.class);
 
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Body: " + response.getBody());
