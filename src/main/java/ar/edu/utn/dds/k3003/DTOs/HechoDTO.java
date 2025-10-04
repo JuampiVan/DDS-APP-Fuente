@@ -1,12 +1,15 @@
 package ar.edu.utn.dds.k3003.DTOs;
 
 import ar.edu.utn.dds.k3003.model.CategoriaHechoEnum;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 public class HechoDTO {
     private String id;
+
+    @JsonProperty("nombre_coleccion")
     private String nombreColeccion;
     private String titulo;
     private List<String> etiquetas;

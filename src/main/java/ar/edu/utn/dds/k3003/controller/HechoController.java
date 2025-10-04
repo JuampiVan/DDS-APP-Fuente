@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/hecho", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -33,6 +34,11 @@ public class HechoController {
   public HechoController(Fachada fachadaFuente, HechoRepository hechoRepository) {
     this.fachadaFuente = fachadaFuente;
     this.hechoRepository = hechoRepository;
+  }
+
+  @GetMapping()
+  public ResponseEntity<List<HechoDTO>> listarHechos() {
+      return ResponseEntity.ok(fachadaFuente.hechos());
   }
 
 

@@ -26,6 +26,7 @@ public class Fachada {
   private ColeccionRepository coleccionRepository;
   private HechoRepository hechoRepository;
   private ProcesadorPdiProxy procesadorPdI;
+  private boolean estaSuscrito;
 
    protected Fachada() {
     this.coleccionRepository = new InMemoryColeccionRepo();
@@ -39,7 +40,15 @@ public class Fachada {
       this.procesadorPdI = new ProcesadorPdiProxy(new ObjectMapper());
   }
 
-  public ColeccionDTO agregar(ColeccionDTO coleccionDTO) {
+    public boolean isEstaSuscrito() {
+        return estaSuscrito;
+    }
+
+    public void setEstaSuscrito(boolean estaSuscrito) {
+        this.estaSuscrito = estaSuscrito;
+    }
+
+    public ColeccionDTO agregar(ColeccionDTO coleccionDTO) {
     if (this.coleccionRepository.findById(coleccionDTO.getNombre()).isPresent()){
       throw new IllegalArgumentException(coleccionDTO.getNombre() + "ya existe");
     }
@@ -100,5 +109,17 @@ public class Fachada {
         .map(coleccion -> new ColeccionDTO(coleccion.getNombre(), coleccion.getDescripcion()))
         .toList();
   }
+
+  public void agregarHechoDesdeMensajeria(HechoDTO hechoDTO) {
+       if (this.estaSuscrito){
+           this.agregar(hechoDTO);
+       }
+  }
+
+    public List<HechoDTO> hechos() {
+        return this.hechoRepository.findAll().stream()
+                .map(hecho -> new HechoDTO(hecho.getId(), hecho.getColeccion().getNombre(), hecho.getTitulo()))
+                .toList();
+    }
 
 }

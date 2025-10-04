@@ -3,7 +3,6 @@ package ar.edu.utn.dds.k3003.controller;
 import ar.edu.utn.dds.k3003.DTOs.ColeccionDTO;
 import ar.edu.utn.dds.k3003.DTOs.HechoDTO;
 import ar.edu.utn.dds.k3003.app.Fachada;
-import datadog.trace.api.Trace;
 import io.micrometer.core.annotation.Counted;
 import io.micrometer.core.annotation.Timed;
 import io.micrometer.core.instrument.MeterRegistry;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
-import io.micrometer.core.instrument.Counter;
 
 @RestController
 @RequestMapping(value = "/colecciones", produces = MediaType.APPLICATION_JSON_VALUE)
