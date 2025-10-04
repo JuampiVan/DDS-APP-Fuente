@@ -2,10 +2,12 @@ package ar.edu.utn.dds.k3003.DTOs;
 
 import ar.edu.utn.dds.k3003.model.CategoriaHechoEnum;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+//@JsonPropertyOrder({ "id", "nombre_coleccion", "titulo", "etiquetas", "categoria","ubicacion","fecha","origen" })
 public class HechoDTO {
     private String id;
 

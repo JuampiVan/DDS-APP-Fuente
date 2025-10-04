@@ -31,6 +31,7 @@ public class Fachada {
    protected Fachada() {
     this.coleccionRepository = new InMemoryColeccionRepo();
     this.hechoRepository = new InMemoryHechoRepo();
+    this.estaSuscrito = true;
   }
 
   @Autowired
