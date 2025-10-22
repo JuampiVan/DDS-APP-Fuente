@@ -39,6 +39,7 @@ public class Fachada {
     this.coleccionRepository = coleccionRepository;
     this.hechoRepository = hechoRepository;
       this.procesadorPdI = new ProcesadorPdiProxy(new ObjectMapper());
+      this.estaSuscrito = true;
   }
 
     public boolean isEstaSuscrito() {
