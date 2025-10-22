@@ -48,6 +48,7 @@ public class TopicWorker extends DefaultConsumer {
         this.channel.basicAck(envelope.getDeliveryTag(), false);
         String json = new String(body, "UTF-8");
 
+        System.out.println(json);
         ObjectMapper mapper = new ObjectMapper();
 
         try {
