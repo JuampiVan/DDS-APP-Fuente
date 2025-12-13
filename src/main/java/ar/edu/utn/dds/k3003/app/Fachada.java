@@ -11,6 +11,7 @@ import ar.edu.utn.dds.k3003.repository.ColeccionRepository;
 import ar.edu.utn.dds.k3003.repository.HechoRepository;
 import ar.edu.utn.dds.k3003.repository.InMemoryColeccionRepo;
 import ar.edu.utn.dds.k3003.repository.InMemoryHechoRepo;
+import ar.edu.utn.dds.k3003.repository.mongo.MongoHechoRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,7 @@ public class Fachada {
 
   private ColeccionRepository coleccionRepository;
   private HechoRepository hechoRepository;
+  private MongoHechoRepository mongoHechoRepository;
   private ProcesadorPdiProxy procesadorPdI;
   private boolean estaSuscrito;
 
@@ -35,8 +37,9 @@ public class Fachada {
   }
 
   @Autowired
-  public Fachada(ColeccionRepository coleccionRepository, HechoRepository hechoRepository) {
+  public Fachada(ColeccionRepository coleccionRepository, HechoRepository hechoRepository, MongoHechoRepository mongoHechoRepository) {
     this.coleccionRepository = coleccionRepository;
+    this.mongoHechoRepository = mongoHechoRepository;
     this.hechoRepository = hechoRepository;
       this.procesadorPdI = new ProcesadorPdiProxy(new ObjectMapper());
       this.estaSuscrito = true;
@@ -76,6 +79,7 @@ public class Fachada {
     Coleccion coleccion = new Coleccion(coleccionDTO.getNombre(), coleccionDTO.getDescripcion());
     Hecho hecho = new Hecho(hechoDTO.getId(),coleccion,hechoDTO.getTitulo());
     this.hechoRepository.save(hecho);
+    this.mongoHechoRepository.save(hecho);
     return new HechoDTO(hecho.getId(),hecho.getColeccion().getNombre(),hechoDTO.getTitulo());
   }
 

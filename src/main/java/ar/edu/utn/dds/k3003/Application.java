@@ -8,9 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 @SpringBootApplication
 @EnableAspectJAutoProxy
+@EnableJpaRepositories(basePackages = "ar.edu.utn.dds.k3003.repository.jpa")
+@EnableMongoRepositories(basePackages = "ar.edu.utn.dds.k3003.repository.mongo")
 public class Application {
     public static void main(String[] args) {
 
