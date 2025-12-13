@@ -42,6 +42,11 @@ public class ColeccionController {
     return ResponseEntity.ok(fachadaFuente.buscarColeccionXId(nombre));
   }
 
+    @GetMapping("/cron")
+    public ResponseEntity<Void> cron(){
+        return ResponseEntity.noContent().build();
+    }
+
   @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
   @Timed(value = "coleccion.post.time", description = "Tiempo de respuesta de POST /coleccion")
   public ResponseEntity<ColeccionDTO> crearColeccion(@RequestBody ColeccionDTO coleccion) {
