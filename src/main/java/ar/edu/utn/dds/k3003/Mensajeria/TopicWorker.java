@@ -12,7 +12,10 @@ import java.io.IOException;
 @Component
 public class TopicWorker extends DefaultConsumer {
 
-    private final String queueName;
+    private static final String queueName = "TPDDS";
+    private static final String queueHost = "shrimp.rmq.cloudamqp.com";
+    private static final String queueUsername = "vmrtlsmw";
+    private static final String queuePassword = "bzJa9xAv-Noe0K1fQH9zDG8wAHHA8s1n";
     private final Channel channel;
     private final Fachada fachada;
 
@@ -22,15 +25,14 @@ public class TopicWorker extends DefaultConsumer {
         this.fachada= fachada;
 
         this.channel = super.getChannel();
-        this.queueName = System.getenv("QUEUE_NAME");
     }
 
     private static Channel createChannel() throws Exception {
         ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost(System.getenv("QUEUE_HOST"));
-        factory.setUsername(System.getenv("QUEUE_USERNAME"));
-        factory.setPassword(System.getenv("QUEUE_PASSWORD"));
-        factory.setVirtualHost(System.getenv("QUEUE_USERNAME"));
+        factory.setHost(queueHost);
+        factory.setUsername(queueUsername);
+        factory.setPassword(queuePassword);
+        factory.setVirtualHost(queueUsername);
         Connection connection = factory.newConnection();
         return connection.createChannel();
     }
